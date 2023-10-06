@@ -57,42 +57,78 @@ public:
         }
     }
 
-    void editTask(size_t taskIndex, string title, string description, string dueDate) {
-        if (taskIndex >= 0 && taskIndex < tasks.size()) {
+    //
+
+    void editTask(size_t taskIndex, string title, string description, string dueDate) 
+    {
+        if (taskIndex >= 0 && taskIndex < tasks.size()) 
+        {
             tasks[taskIndex].title = title;
             tasks[taskIndex].description = description;
             tasks[taskIndex].dueDate = dueDate;
         }
     }
 
-    void deleteTask(size_t taskIndex) {
-        if (taskIndex >= 0 && taskIndex < tasks.size()) {
+    // deletes tasks
+
+    void deleteTask(size_t taskIndex) 
+    {
+        if (taskIndex >= 0 && taskIndex < tasks.size()) 
+        {
             tasks.erase(tasks.begin() + taskIndex);
         }
     }
 
-    void markTaskAsCompleted(size_t taskIndex) {
-        if (taskIndex >= 0 && taskIndex < tasks.size()) {
+    // marks tasks as complete
+
+    void markTaskAsCompleted(size_t taskIndex) 
+    {
+        if (taskIndex >= 0 && taskIndex < tasks.size()) 
+        {
             tasks[taskIndex].completed = true;
         }
     }
 
-    void sortTasksByDueDate() {
-        sort(tasks.begin(), tasks.end(), [](const Task& a, const Task& b) {
+    // sorts list by date
+
+    void sortTasksByDueDate() 
+    {
+        sort(tasks.begin(), tasks.end(), [](const Task& a, const Task& b) 
+        {
             return a.dueDate < b.dueDate;
         });
     }
 
-    void sortTasksByStatus() {
-        sort(tasks.begin(), tasks.end(), [](const Task& a, const Task& b) {
+    // sorts list by status
+
+    void sortTasksByStatus() 
+    {
+        sort(tasks.begin(), tasks.end(), [](const Task& a, const Task& b) 
+        {
             return a.completed > b.completed;
         });
+    }
+
+    // Check if there are any tasks
+
+    bool hasTasks() 
+    {
+        if (tasks.empty())
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 };
 
 int main() {
     TaskTracker taskTracker;
     taskTracker.loadTasksFromFile();
+
+    // Menu interface to select action to perform on tasks
 
     int choice;
     while (true) {
@@ -107,7 +143,9 @@ int main() {
         cout << "8. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
-        cin.ignore(); // Ignore newline character left in the input buffer
+        cin.ignore();
+
+        // switch through different menu options
 
         switch (choice) {
             case 1: {
@@ -138,12 +176,15 @@ int main() {
                 break;
             }
             case 3: {
-                size_t index;
-                cout << "Enter the task number to delete: " + index;
-                cin >> index;
-                --index;
-                taskTracker.deleteTask(index);
-                break;
+                if (taskTracker.hasTasks() == true)
+                {
+                    size_t index;
+                    cout << "Enter the task number to delete: ";
+                    cin >> index;
+                    --index;
+                    taskTracker.deleteTask(index);
+                    break;
+                }
             }
             case 4: {
                 size_t index;
